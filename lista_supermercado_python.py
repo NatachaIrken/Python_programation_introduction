@@ -198,6 +198,16 @@ def pass_next_section():
 
     return pass_section
 
+suma_total_productos_panaderia = 0
+suma_total_lacteos = 0
+total_carne = 0 
+total_articulos_aseo = 0
+total_alimentos_congelados = 0
+total_bebestibles = 0
+total_frutas_verduras = 0
+total_acumulado = 0
+
+
 # Sección 1 Panaderia:   
 
 def get_list_panaderia(panaderia, tortas):
@@ -216,7 +226,7 @@ def get_list_panaderia(panaderia, tortas):
             opcion_pan_elegido = int(input("Ingrese el número de opción de pan que desea: "))
 
             if opcion_pan_elegido >= 1 and opcion_pan_elegido <= len(panaderia):
-                cantidad = int(input("Ingrese la cantidad de pan que desea llevar: "))
+                cantidad = int(input("Ingrese la cantidad de pan que desea llevar (kilos) : "))
                 total_pan = panaderia[opcion_pan_elegido - 1]['precio_kilo'] * cantidad
                 print(f"Total Pan: {total_pan}")
                 break
@@ -249,13 +259,14 @@ def get_list_panaderia(panaderia, tortas):
             opcion_torta_elegida = 0
             total_tortas = 0
             print("No agrega Tortas")
+            total_acumulado = total_acumulado + total_pan + total_tortas
+            get_list_lacteos(leches, yogures, quesos)
       
-        suma_total_productos_panaderia = total_pan + total_tortas
-
     else: 
         get_list_lacteos(leches, yogures, quesos)
 
-        return suma_total_productos_panaderia
+    total_acumulado = total_acumulado + suma_total_productos_panaderia
+    return suma_total_productos_panaderia
 
     
    
@@ -354,13 +365,15 @@ def get_list_lacteos(leches, yogures, quesos):
     else:
         get_list_carniceria(carnes) 
 
-        return suma_total_lacteos
+    total_acumulado = total_acumulado + suma_total_lacteos
+    return suma_total_lacteos
 
 
 
 #Seccion 3 Carnes
     
 def get_list_carniceria(carnes):
+    total_carne = 0
     print("\n \n")
     print("====Seccion Carnicería====\n")
 
@@ -389,7 +402,9 @@ def get_list_carniceria(carnes):
     else:
         get_list_aseo(aseo)
 
-        return total_carne
+
+    total_acumulado = total_acumulado + total_carne
+    return total_carne
 
 # Seccion 4 Aseo
     
@@ -421,8 +436,11 @@ def get_list_aseo(aseo):
             print("No agrega Artículos de aseo")
     else: 
         get_list_congelados(congelados)
- 
-        return total_articulos_aseo
+
+
+    
+    total_acumulado = total_acumulado + total_articulos_aseo
+    return total_articulos_aseo
 
 # Seccion 5 Congelados
 
@@ -430,7 +448,7 @@ def get_list_congelados(congelados):
     print("\n \n")
     print("=====Seccion Congelados=====\n")
     
-    if pass_next_section(): 
+    if pass_next_section() == 1: 
         while True: 
             for posicion, i in enumerate(congelados):
                 pos = posicion + 1
@@ -451,10 +469,12 @@ def get_list_congelados(congelados):
             opcion_congelado_elegido = 0
             total_alimentos_congelados = 0
             print("No agrega Alimentos congelados")
-    else: 
+    else:
         get_list_bebestibles(bebestibles)
 
-        return total_alimentos_congelados
+    
+    total_acumulado = total_acumulado + total_alimentos_congelados
+    return total_alimentos_congelados
 
 # Sección 6 Bebestibles
           
@@ -485,38 +505,10 @@ def get_list_bebestibles(bebestibles):
             print("No agrega bebestibles")
     else:
         get_list_frutas_verdura(frutas_verduras)
- 
-        return total_bebestibles
-
-# Sección 7 Frutas y Verduras
-
-#def get_list_frutas_verdura(frutas_verduras):
- #   print("\n \n")
-  #  print("=====Seccion Verdulería=====\n")
     
-   # if pass_next_section() == 1: 
-    #     while True: 
-     #       for posicion, i in enumerate(frutas_verduras):
-      #          pos = posicion + 1
-       #         producto = i["fruta_verdura"]
-        #        precio = i["valor_kilo"]
-         #       print(f"{pos}. {producto}, precio: {precio}")
     
-          #  opcion_frutas_verduras = int(input("Ingrese el número de opción de fruta o verdura que desea: "))
-    
-           # if opcion_frutas_verduras >= 1 and opcion_frutas_verduras <= len(frutas_verduras):
-            #    cantidad = int(input("Ingrese la cantidad de fruta o verdura que desea llevar: "))
-             #   total_frutas_verduras = frutas_verduras[opcion_frutas_verduras - 1]['valor_kilo'] * cantidad
-              #  print(f"Total frutas y verduras: {total_frutas_verduras}")
-               # break
-            #else:
-             #   opcion_frutas_verduras = 0
-              #  total_frutas_verduras = 0
-               # print("No agrega frutas ni verduras")
-    #else: 
-     #   generar_boleta()
-
-   # return total_frutas_verduras
+    total_acumulado = total_acumulado + total_bebestibles
+    return total_bebestibles
 
 def get_list_frutas_verdura(frutas_verduras):
     print("\n \n")
@@ -543,10 +535,22 @@ def get_list_frutas_verdura(frutas_verduras):
             opcion_frutas_verduras = 0
             total_frutas_verduras = 0
             print("No agrega frutas ni verduras")
-            generar_boleta()
+            
+    else:
+        get_payment()
+        #generar_boleta()
 
+
+    total_acumulado = total_acumulado + total_frutas_verduras
     return total_frutas_verduras
- 
+
+def good_bye():
+   print("Gracias por su visita") 
+
+def init():
+    get_list_panaderia(panaderia, tortas)
+    
+
 def generar_boleta():
     # Obtener totales de cada sección
     total_panaderia = get_list_panaderia(panaderia, tortas)
@@ -557,37 +561,46 @@ def generar_boleta():
     total_bebestibles = get_list_bebestibles(bebestibles)
     total_frutas_verduras = get_list_frutas_verdura(frutas_verduras)
 
-    # Calcular total general
-    lista_valores = [ total_panaderia,
-        total_lacteos,
-        total_carniceria,
-        total_aseo,
-        total_congelados,
-        total_bebestibles,
-        total_frutas_verduras,
-    ]
+def get_payment():
+        # Calcular total general
+        
+    #lista_valores = [ total_panaderia,
+     #   total_lacteos,
+      #  total_carniceria,
+       # total_aseo,
+        #total_congelados,
+        #total_bebestibles,
+        #total_frutas_verduras,
+   # ]
 
-    total_general = sum(lista_valores)
 
+    total_general = total_acumulado
     iva = int(total_general * 0.19)
-
     total_final = total_general + iva
+
+    suma_total_productos_panaderia = 0
+    suma_total_lacteos = 0
+    total_carne = 0 
+    total_articulos_aseo = 0
+    total_alimentos_congelados = 0
+    total_bebestibles = 0
+    total_frutas_verduras = 0
     
     # Imprimir boleta
     print("\n \n")
     print("======= BOLETA ELECTRONICA RUT 81.678.873-0=======")
     print("Sección Panadería:")
-    print(f"Total Panadería: {total_panaderia}")
+    print(f"Total Panadería: {suma_total_productos_panaderia}")
     print("Sección Lácteos:")
-    print(f"Total Leches: {total_lacteos}")
-    print(f"Total Yogurts: {total_lacteos}")
-    print(f"Total Quesos: {total_lacteos}")
+    print(f"Total Leches: {suma_total_lacteos}")
+    print(f"Total Yogurts: {suma_total_lacteos}")
+    print(f"Total Quesos: {suma_total_lacteos}")
     print("Sección Carnicería:")
-    print(f"Total Carnicería: {total_carniceria}")
+    print(f"Total Carnicería: {total_carne}")
     print("Sección Aseo:")
-    print(f"Total Artículos de Aseo: {total_aseo}")
+    print(f"Total Artículos de Aseo: {total_articulos_aseo}")
     print("Sección Congelados:")
-    print(f"Total Alimentos Congelados: {total_congelados}")
+    print(f"Total Alimentos Congelados: {total_alimentos_congelados}")
     print("Sección Bebestibles:")
     print(f"Total Bebestibles: {total_bebestibles}")
     print("Sección Frutas y Verduras:")
@@ -626,5 +639,7 @@ def metodos_pago_boleta(total_final):
         en {cantidad_cuotas} cuotas,
         valor de cuota es: {enCLP}
         """)
+ 
 
-generar_boleta()
+init()
+
