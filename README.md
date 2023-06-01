@@ -1,2 +1,3 @@
 # Buy_List
- Proyec in Ptyhon for to the buy in a supermarket for subject Introduction to Programation
+Project in Python. Allow  generate a list in a supermarket and choose an element to the list. 
+This implementation was made it for subject Introduction to Programation
