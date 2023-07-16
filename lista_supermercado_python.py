@@ -349,6 +349,7 @@ def get_list_lacteos(leches, yogures, quesos):
             total_queso = 0
             print("No agrega queso")
 
+<<<<<<< Updated upstream
         suma_total_lacteos = total_leches + total_queso + total_yogurt
     
     else:
@@ -356,6 +357,9 @@ def get_list_lacteos(leches, yogures, quesos):
 
         return suma_total_lacteos
 
+=======
+    receive_menu()
+>>>>>>> Stashed changes
 
 
 #Seccion 3 Carnes
@@ -599,8 +603,17 @@ def generar_boleta():
     metodos_pago_boleta(total_final)
   
 
+<<<<<<< Updated upstream
 def metodos_pago_boleta(total_final):
     total_metodo_pago = total_final
+=======
+    return total_final
+
+def metodos_pago_boleta():
+    total_a_pagar = generar_boleta()
+    total_metodo_pago = total_a_pagar
+    total_metodo_pagoCLP = "${:,.0f}".format(total_metodo_pago)
+>>>>>>> Stashed changes
     metodo_pago = [
         "Efectivo", 
         "Debito", 
@@ -612,6 +625,35 @@ def metodos_pago_boleta(total_final):
         print(f"metodo de pago {pos} : {i}")
 
     opcion_pago = int(input("ingrese método de pago: "))
+<<<<<<< Updated upstream
+=======
+    while True: 
+        if opcion_pago == 1:
+            print(f"ingresaste opción Efectivo, donde el valor total a pagar es: {total_metodo_pagoCLP}")
+            exit()
+            break
+        elif opcion_pago == 2:
+            print(f"ingresaste opción Debito, donde el valor total a pagar es: {total_metodo_pagoCLP}")
+            exit()
+            break
+        elif opcion_pago == 3:
+            cantidad_cuotas = int(input("Ingrese la cantidad de cuotas: "))
+            valor_cuotas = int(total_metodo_pago/ cantidad_cuotas)
+            CLP = "${:,.0f}".format(valor_cuotas)
+            print(f"""
+            Ingresaste opción Crédito, donde el valor total a pagar es: {total_metodo_pagoCLP} 
+            en {cantidad_cuotas} cuotas,
+            valor de cuota es: {CLP}
+            """)  
+            exit()
+            break
+        else:
+            print("Opción inválida. Por favor, ingrese un número válido.")
+
+
+receive_menu()
+
+>>>>>>> Stashed changes
 
     if opcion_pago == 1:
         print(f"ingresaste opción Efectivo, donde el valor total a pagar es: {total_metodo_pago}")
